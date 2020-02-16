@@ -18,6 +18,31 @@ type User {
     email: String! @unique
     joinDate: String
     favorites: [Recipe]
+    goals: [Goal]
+}
+
+type Goal {
+    _id: ID
+    name: String!
+    createdDate: String
+    category: String!
+    user: [User]
+    subgoals: [Subgoal]
+    target: String!
+    progress: String!
+    progressPercent: String
+}
+
+type Subgoal {
+    _id: ID
+    name: String!
+    createdDate: String
+    goal: [Goal]
+    user: [User]
+    target: String!
+    targetDate: String
+    progress: String!
+    progressPercent: String
 }
 
 type Query {
