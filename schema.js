@@ -48,6 +48,7 @@ type Subgoal {
 type Query {
     getAllRecipes: [Recipe]
     getRecipe(_id: ID!): Recipe
+    getGoal(_id: ID!): Goal
     searchRecipes(searchTerm: String): [Recipe]
 
     getCurrentUser: User 
