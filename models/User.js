@@ -25,6 +25,10 @@ const UserSchema = new Schema({
   favorites: {
     type: [Schema.Types.ObjectId],
     ref: "Recipe"
+  },
+  goals: {
+    type: [Schema.Types.ObjectId],
+    ref: "Goals"
   }
 });
 

@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "./variables.env" });
 const Recipe = require("./models/Recipe");
 const User = require("./models/User");
+const Goal = require("./models/Goal");
+const Subgoal = require("./models/Subgoal");
 
 // Bring in graphQL Express middleware
 const { graphiqlExpress, graphqlExpress } = require("apollo-server-express");
@@ -61,6 +63,8 @@ app.use(
     context: {
       Recipe,
       User,
+      Goal,
+      Subgoal,
       currentUser
     }
   }))

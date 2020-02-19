@@ -43,6 +43,12 @@ exports.resolvers = {
       });
       return userRecipes;
     },
+    getUserGoals: async (root, { username }, { Goal }) => {
+      const userGoals = await Goal.find({ username }).sort({
+        createdDate: "desc"
+      });
+      return userGoals;
+    },
 
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if (!currentUser) {
@@ -71,6 +77,20 @@ exports.resolvers = {
         username
       }).save();
       return newRecipe;
+    },
+    addGoal: async (
+      root,
+      { name, category, username, goalTarget, currentProgress },
+      { Goal }
+    ) => {
+      const newGoal = await new Goal({
+        name,
+        category,
+        username,
+        goalTarget,
+        currentProgress
+      }).save();
+      return newGoal;
     },
     likeRecipe: async (root, { _id, username }, { Recipe, User }) => {
       const recipe = await Recipe.findOneAndUpdate(
@@ -107,7 +127,7 @@ exports.resolvers = {
       if (!isValidPassword) {
         throw new Error("Invalid Password");
       }
-      return { token: createToken(user, process.env.SECRET, "1hr") };
+      return { token: createToken(user, process.env.SECRET, "12hr") };
     },
     signupUser: async (root, { username, email, password }, { User }) => {
       const user = await User.findOne({ username });
@@ -119,7 +139,7 @@ exports.resolvers = {
         email,
         password
       }).save();
-      return { token: createToken(newUser, process.env.SECRET, "1hr") };
+      return { token: createToken(newUser, process.env.SECRET, "12hr") };
     }
   }
 };

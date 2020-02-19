@@ -26,10 +26,10 @@ type Goal {
     name: String!
     createdDate: String
     category: String!
-    user: [User]
+    username: String
     subgoals: [Subgoal]
-    target: String!
-    progress: String!
+    goalTarget: String!
+    currentProgress: String
     progressPercent: String
 }
 
@@ -38,10 +38,10 @@ type Subgoal {
     name: String!
     createdDate: String
     goal: [Goal]
-    user: [User]
-    target: String!
+    username: String
+    goalTarget: String!
     targetDate: String
-    progress: String!
+    currentProgress: String!
     progressPercent: String
 }
 
@@ -52,6 +52,7 @@ type Query {
 
     getCurrentUser: User 
     getUserRecipes(username: String!): [Recipe]
+    getUserGoals(username: String!): [Goal]
 }
 
 type Token {
@@ -59,6 +60,7 @@ type Token {
 }
 
 type Mutation {
+    addGoal(name: String!, category: String!, username: String, goalTarget: String!, currentProgress: String): Goal
     addRecipe(name: String!, description: String!, category: String!, instructions: String!, username: String): Recipe
     deleteUserRecipe(_id: ID!): Recipe
     likeRecipe(_id: ID!, username: String!): Recipe
