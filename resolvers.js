@@ -12,6 +12,10 @@ exports.resolvers = {
       const allRecipes = await Recipe.find().sort({ createdDate: "desc" });
       return allRecipes;
     },
+    getGoal: async (root, { _id }, { Goal }) => {
+      const goal = await Goal.findOne({ _id });
+      return goal;
+    },
     getRecipe: async (root, { _id }, { Recipe }) => {
       const recipe = await Recipe.findOne({ _id });
       return recipe;
