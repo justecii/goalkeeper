@@ -1,0 +1,25 @@
+/* TODO - Fix styles to apply without important */
+
+.paper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    background-color: #ca2121 !important;
+}
+
+.form {
+    width: "100%" !important;
+}
+
+.submit-button {
+    color: #4bc9e9;
+    background-color: #ca2121;
+}
+
+
+/* .submit {
+     margin: theme.spacing(3, 0, 2)
+ } */

@@ -15,11 +15,15 @@ const GoalPage = ({ match }) => {
         if (error) return <div>Error</div>;
         return (
           <div className="App">
-            <h2>{data.getGoal.name}</h2>
-            <p>Category: {data.getGoal.category}</p>
-            <p>Target: {data.getGoal.goalTarget}</p>
-            <p>Current Progress: {data.getGoal.currentProgress}</p>
-            <ProgressBar />
+            <div className="TODO">
+              <h2>{data.getGoal.name}</h2>
+              <p>Category: {data.getGoal.category}</p>
+              <p>Target: {data.getGoal.goalTarget}</p>
+              <p>Current Progress: {data.getGoal.currentProgress}</p>
+            </div>
+            <div className="TODO">
+              <ProgressBar />
+            </div>
           </div>
         );
       }}

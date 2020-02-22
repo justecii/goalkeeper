@@ -47,9 +47,6 @@ const NavbarAuth = ({ session }) => (
         <Signout />
       </li>
     </ul>
-    <h4>
-      Welcome, <strong>{session.getCurrentUser.username}</strong>
-    </h4>
   </Fragment>
 );
 

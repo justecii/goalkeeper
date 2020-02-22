@@ -6,6 +6,6 @@ body {
     background-color: #4bc9e9;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+html {
+    font-size: 15px;
 }

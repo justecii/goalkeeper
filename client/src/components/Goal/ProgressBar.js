@@ -6,8 +6,8 @@ class ProgressBar extends React.Component {
   constructor() {
     super();
     this.state = {
-      percent: 35,
-      data: this.getData(25)
+      percent: 65,
+      data: this.getData(65)
     };
   }
   getData(percent) {

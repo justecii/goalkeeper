@@ -3,6 +3,17 @@
     padding-left: 25px;
 }
 
+a {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
 nav {
     text-align: center;
     margin-bottom: 1em;
@@ -23,9 +34,13 @@ nav ul {
     color: #4bc9e9;
 }
 
+h3 {
+    font-size: 2rem;
+}
+
 p,
 li {
-    font-size: 2rem;
+    font-size: 1.25rem;
 }
 
 ul {
@@ -59,4 +74,8 @@ textarea {
 .delete-button {
     color: red;
     cursor: pointer;
+}
+
+.flex-horizontal {
+    display: flex;
 }
