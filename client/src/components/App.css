@@ -1,0 +1,62 @@
+.App {
+    text-align: left;
+    padding-left: 25px;
+}
+
+nav {
+    text-align: center;
+    margin-bottom: 1em;
+    padding-bottom: 0.2em;
+    padding-top: 2em;
+    background-color: #ca2121;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.nav-link a,
+.nav-link button {
+    text-decoration: none;
+    color: #4bc9e9;
+}
+
+p,
+li {
+    font-size: 2rem;
+}
+
+ul {
+    list-style: none;
+}
+
+input,
+select,
+textarea {
+    padding: 0.4em 0.2em;
+    font-size: 1.2rem;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.form {
+    display: flex;
+    align-items: normal;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+}
+
+.submit-button {
+    color: #4bc9e9;
+    background-color: #ca2121;
+}
+
+.delete-button {
+    color: red;
+    cursor: pointer;
+}
