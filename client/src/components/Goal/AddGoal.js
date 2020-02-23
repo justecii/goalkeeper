@@ -5,10 +5,23 @@ import { Mutation } from "react-apollo";
 import { ADD_GOAL, GET_USER_GOALS } from "../../queries";
 import Error from "../Error";
 import withAuth from "../withAuth";
+import {
+  Avatar,
+  Button,
+  TextField,
+  Grid,
+  Typography,
+  Container,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
+} from "@material-ui/core";
+import SportsHandballIcon from "@material-ui/icons/SportsHandball";
 
 const initialState = {
   name: "",
-  category: "Financial",
+  category: "",
   goalTarget: "",
   currentProgress: "",
   username: ""
@@ -38,8 +51,9 @@ class AddGoal extends React.Component {
   handleSubmit = (event, addGoal) => {
     event.preventDefault();
     addGoal().then(({ data }) => {
+      console.log(data.addGoal._id);
       this.clearState();
-      this.props.history.push("/");
+      this.props.history.push(`/goal/${data.addGoal._id}`);
     });
   };
   validateForm = () => {
@@ -61,7 +75,6 @@ class AddGoal extends React.Component {
     // });
     console.log(cache);
   };
-  // update refetchQueries with GET_USER_GOALS
   render() {
     const {
       name,
@@ -70,6 +83,31 @@ class AddGoal extends React.Component {
       currentProgress,
       username
     } = this.state;
+
+    let targetPlaceholder, currentPlaceholder;
+
+    switch (this.state.category) {
+      case "Financial":
+        targetPlaceholder = "How much would you like to save";
+        currentPlaceholder = "What is your current savings";
+        break;
+      case "Habit":
+        targetPlaceholder = "How Many hours a week?";
+        currentPlaceholder = "How often now?";
+        break;
+      case "Health":
+        targetPlaceholder = "What is your goal?";
+        currentPlaceholder = "What is your current status?";
+        break;
+      case "Weight":
+        targetPlaceholder = "What is your ideal weight?";
+        currentPlaceholder = "What is your current weight?";
+        break;
+      default:
+        targetPlaceholder = "Target";
+        currentPlaceholder = "Current";
+    }
+
     return (
       <Mutation
         mutation={ADD_GOAL}
@@ -86,54 +124,83 @@ class AddGoal extends React.Component {
       >
         {(addGoal, { data, loading, error }) => {
           return (
-            <div className="App">
-              <h2>Add Goal</h2>
-              <form
-                className="form"
-                onSubmit={event => this.handleSubmit(event, addGoal)}
-              >
-                <input
-                  type="text"
-                  name="name"
-                  onChange={this.handleChange}
-                  placeholder="Goal Name"
-                  value={name}
-                />
-                <select
-                  name="category"
-                  onChange={this.handleChange}
-                  value={category}
+            <Container component="main" maxWidth="xs">
+              <div className="paper">
+                <Grid container>
+                  <Grid item xs={12} sm={6}>
+                    <Avatar className="avatar">
+                      <SportsHandballIcon />
+                    </Avatar>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Typography component="h1" variant="h5">
+                      Add Goal
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <form
+                  className="form"
+                  onSubmit={event => this.handleSubmit(event, addGoal)}
                 >
-                  <option value="Financial">Financial</option>
-                  <option value="Habit">Habit</option>
-                  <option value="Health">Health</option>
-                  <option value="Weight">Weight</option>
-                </select>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="name"
+                    name="name"
+                    onChange={this.handleChange}
+                    label="What is your goal?"
+                    value={name}
+                  />
+                  <FormControl>
+                    <InputLabel>What type of goal?</InputLabel>
+                    <Select
+                      name="category"
+                      label=""
+                      onChange={this.handleChange}
+                      value={category}
+                    >
+                      <MenuItem value="Financial">Financial</MenuItem>
+                      <MenuItem value="Habit">Habit</MenuItem>
+                      <MenuItem value="Health">Health</MenuItem>
+                      <MenuItem value="Weight">Weight</MenuItem>
+                    </Select>
+                  </FormControl>
 
-                <input
-                  type="text"
-                  name="goalTarget"
-                  onChange={this.handleChange}
-                  placeholder="Add Target"
-                  value={goalTarget}
-                />
-                <input
-                  type="text"
-                  name="currentProgress"
-                  onChange={this.handleChange}
-                  placeholder="What's your current progress?"
-                  value={currentProgress}
-                />
-                <button
-                  type="submit"
-                  disabled={loading || this.validateForm()}
-                  className="submit-button"
-                >
-                  Submit
-                </button>
-                {error && <Error error={error} />}
-              </form>
-            </div>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    type="text"
+                    id="goalTarget"
+                    name="goalTarget"
+                    onChange={this.handleChange}
+                    label={targetPlaceholder}
+                    value={goalTarget}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    type="text"
+                    id="currentProgress"
+                    name="currentProgress"
+                    onChange={this.handleChange}
+                    label={currentPlaceholder}
+                    value={currentProgress}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={loading || this.validateForm()}
+                    className="submit-button"
+                    fullWidth
+                  >
+                    Submit
+                  </Button>
+                  {error && <Error error={error} />}
+                </form>
+              </div>
+            </Container>
           );
         }}
       </Mutation>

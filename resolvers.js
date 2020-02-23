@@ -84,7 +84,7 @@ exports.resolvers = {
     },
     addGoal: async (
       root,
-      { name, category, username, goalTarget, currentProgress },
+      { name, category, username, goalTarget, currentProgress, goalStart },
       { Goal }
     ) => {
       const newGoal = await new Goal({
@@ -92,7 +92,8 @@ exports.resolvers = {
         category,
         username,
         goalTarget,
-        currentProgress
+        currentProgress,
+        goalStart
       }).save();
       return newGoal;
     },

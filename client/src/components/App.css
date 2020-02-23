@@ -63,7 +63,7 @@ textarea {
     align-items: normal;
     justify-content: center;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
 }
 
 .submit-button {

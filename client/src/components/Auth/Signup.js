@@ -6,12 +6,8 @@ import { SIGNUP_USER } from "../../queries";
 import {
   Avatar,
   Button,
-  CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
-  Grid,
   Box,
   Typography,
   Container
@@ -83,7 +79,7 @@ class Signup extends React.Component {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Mutation
             mutation={SIGNUP_USER}
@@ -95,58 +91,58 @@ class Signup extends React.Component {
                   className="form"
                   onSubmit={event => this.handlSubmit(event, signupUser)}
                 >
-                  <Grid container spacing={2}>
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      value={username}
-                      onChange={this.handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email Address"
-                      name="email"
-                      value={email}
-                      onChange={this.handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={this.handleChange}
-                    />
-                    <TextField
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="passwordConfirmation"
-                      label="PasswordConfirmation"
-                      type="password"
-                      id="passwordConfirmation"
-                      name="passwordConfirmation"
-                      placeholder="Confirm Password"
-                      value={passwordConfirmation}
-                      onChange={this.handleChange}
-                    />
-                  </Grid>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="dense"
+                    id="username"
+                    label="Username"
+                    name="username"
+                    value={username}
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="dense"
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    value={email}
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="dense"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    margin="dense"
+                    name="passwordConfirmation"
+                    label="PasswordConfirmation"
+                    type="password"
+                    id="passwordConfirmation"
+                    placeholder="Confirm Password"
+                    value={passwordConfirmation}
+                    onChange={this.handleChange}
+                  />
                   <Button
                     type="submit"
                     disabled={loading || this.validateForm()}
                     className="submit-button"
                     fullWidth
-                    variant="contained"
                   >
                     Submit
                   </Button>
@@ -156,6 +152,9 @@ class Signup extends React.Component {
             }}
           </Mutation>
         </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
       </Container>
     );
   }

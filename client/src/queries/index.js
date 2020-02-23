@@ -34,6 +34,7 @@ export const GET_GOAL = gql`
       name
       category
       goalTarget
+      goalStart
       currentProgress
       createdDate
       username
@@ -77,6 +78,7 @@ export const ADD_GOAL = gql`
     $username: String
     $goalTarget: String!
     $currentProgress: String
+    $goalStart: String
   ) {
     addGoal(
       name: $name
@@ -84,6 +86,7 @@ export const ADD_GOAL = gql`
       username: $username
       goalTarget: $goalTarget
       currentProgress: $currentProgress
+      goalStart: $goalStart
     ) {
       _id
       name
@@ -92,6 +95,7 @@ export const ADD_GOAL = gql`
       username
       goalTarget
       currentProgress
+      goalStart
     }
   }
 `;

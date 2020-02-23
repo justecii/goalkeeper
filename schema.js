@@ -30,7 +30,7 @@ type Goal {
     subgoals: [Subgoal]
     goalTarget: String!
     currentProgress: String
-    progressPercent: String
+    goalStart: String
 }
 
 type Subgoal {
@@ -42,7 +42,7 @@ type Subgoal {
     goalTarget: String!
     targetDate: String
     currentProgress: String!
-    progressPercent: String
+    goalStart: String
 }
 
 type Query {
@@ -61,7 +61,7 @@ type Token {
 }
 
 type Mutation {
-    addGoal(name: String!, category: String!, username: String, goalTarget: String!, currentProgress: String): Goal
+    addGoal(name: String!, category: String!, username: String, goalTarget: String!, currentProgress: String, goalStart): Goal
     addRecipe(name: String!, description: String!, category: String!, instructions: String!, username: String): Recipe
     deleteUserRecipe(_id: ID!): Recipe
     likeRecipe(_id: ID!, username: String!): Recipe

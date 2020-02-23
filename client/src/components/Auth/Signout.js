@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 import { ApolloConsumer } from "react-apollo";
 
@@ -13,7 +14,7 @@ const Signout = ({ history }) => (
   <ApolloConsumer>
     {client => {
       return (
-        <button onClick={() => handleSignout(client, history)}>Signout</button>
+        <Button onClick={() => handleSignout(client, history)}>Signout</Button>
       );
     }}
   </ApolloConsumer>

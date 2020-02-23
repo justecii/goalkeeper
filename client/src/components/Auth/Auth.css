@@ -4,19 +4,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .avatar {
     background-color: #ca2121 !important;
+    margin: 5px auto;
 }
 
 .form {
     width: "100%" !important;
+    margin: 10px;
 }
 
 .submit-button {
-    color: #4bc9e9;
-    background-color: #ca2121;
+    color: #ca2121 !important;
+    background-color: #000 !important;
 }
 
 

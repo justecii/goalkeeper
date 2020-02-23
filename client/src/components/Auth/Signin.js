@@ -1,18 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import Error from "../Error";
 import { SIGNIN_USER } from "../../queries";
 import {
   Avatar,
   Button,
-  CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
-  Grid,
   Box,
   Typography,
   Container
