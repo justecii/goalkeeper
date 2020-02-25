@@ -99,6 +99,14 @@ export const ADD_GOAL = gql`
     }
   }
 `;
+
+export const DELETE_USER_GOAL = gql`
+  mutation($_id: ID!) {
+    deleteUserGoal(_id: $_id) {
+      _id
+    }
+  }
+`;
 // Recipes Mutations
 
 export const ADD_RECIPE = gql`

@@ -36,7 +36,12 @@ class UserGoals extends React.Component {
               )}
               {data.getUserGoals.map(goals => (
                 <li key={goals._id}>
-                  <Link to={`/goal/${goals._id}`}>
+                  <Link
+                    to={{
+                      pathname: `/goal/${goals._id}`,
+                      state: { username: username }
+                    }}
+                  >
                     <p style={{ marginBottom: "0" }}>{goals.name}</p>
                   </Link>
                   <p>Target: {goals.goalTarget}</p>

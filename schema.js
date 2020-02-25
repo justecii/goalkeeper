@@ -61,9 +61,10 @@ type Token {
 }
 
 type Mutation {
-    addGoal(name: String!, category: String!, username: String, goalTarget: String!, currentProgress: String, goalStart): Goal
+    addGoal(name: String!, category: String!, username: String, goalTarget: String!, currentProgress: String, goalStart: String): Goal
     addRecipe(name: String!, description: String!, category: String!, instructions: String!, username: String): Recipe
     deleteUserRecipe(_id: ID!): Recipe
+    deleteUserGoal(_id: ID!): Goal
     likeRecipe(_id: ID!, username: String!): Recipe
     unlikeRecipe(_id: ID!, username: String!): Recipe
     signinUser(username: String!, password: String!): Token

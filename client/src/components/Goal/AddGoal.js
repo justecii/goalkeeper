@@ -18,6 +18,7 @@ import {
   InputLabel
 } from "@material-ui/core";
 import SportsHandballIcon from "@material-ui/icons/SportsHandball";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const initialState = {
   name: "",
@@ -195,7 +196,7 @@ class AddGoal extends React.Component {
                     className="submit-button"
                     fullWidth
                   >
-                    Submit
+                    <AddCircleOutlineIcon /> Submit
                   </Button>
                   {error && <Error error={error} />}
                 </form>

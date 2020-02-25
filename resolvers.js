@@ -123,6 +123,10 @@ exports.resolvers = {
       const recipe = await Recipe.findOneAndRemove({ _id });
       return recipe;
     },
+    deleteUserGoal: async (root, { _id }, { Goal }) => {
+      const goal = await Goal.findOneAndRemove({ _id });
+      return goal;
+    },
     signinUser: async (root, { username, password }, { User }) => {
       const user = await User.findOne({ username });
       if (!user) {
