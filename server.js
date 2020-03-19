@@ -7,6 +7,8 @@ require("dotenv").config({ path: "./variables.env" });
 const Recipe = require("./models/Recipe");
 const User = require("./models/User");
 const Goal = require("./models/Goal");
+const Asset = require("./models/Asset");
+const Debt = require("./models/Debt");
 const Subgoal = require("./models/Subgoal");
 
 // Bring in graphQL Express middleware
@@ -65,6 +67,8 @@ app.use(
       User,
       Goal,
       Subgoal,
+      Asset,
+      Debt,
       currentUser
     }
   }))

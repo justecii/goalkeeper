@@ -27,6 +27,34 @@ export const GET_RECIPE = gql`
   }
 `;
 
+export const GET_ASSET = gql`
+  query($_id: ID!) {
+    getAsset(_id: $_id) {
+      _id
+      name
+      category
+      currentValue
+      interestRate
+      createdDate
+      quantity
+    }
+  }
+`;
+
+export const GET_DEBT = gql`
+  query($_id: ID!) {
+    getDebt(_id: $_id) {
+      _id
+      name
+      category
+      currentDebt
+      interestRate
+      totalCreditLine
+      createdDate
+    }
+  }
+`;
+
 export const GET_GOAL = gql`
   query($_id: ID!) {
     getGoal(_id: $_id) {
@@ -136,6 +164,83 @@ export const ADD_RECIPE = gql`
   }
 `;
 
+export const ADD_ASSET = gql`
+  mutation(
+    $name: String!
+    $category: String!
+    $currentValue: Float!
+    $interestRate: Float
+    $quantity: Int
+    $user: ID
+  ) {
+    addAsset(
+      name: $name
+      category: $category
+      currentValue: $currentValue
+      interestRate: $interestRate
+      quantity: $quantity
+      user: $user
+    ) {
+      _id
+      name
+      category
+      currentValue
+      interestRate
+      createdDate
+      quantity
+      user
+    }
+  }
+`;
+
+export const DELETE_USER_ASSET = gql`
+  mutation($_id: ID!) {
+    deleteUserAsset(_id: $_id) {
+      _id
+    }
+  }
+`;
+
+export const ADD_DEBT = gql`
+  mutation(
+    $name: String!
+    $category: String!
+    $currentDebt: Float!
+    $totalCreditLine: Float
+    $interestRate: Float
+    $debtAtCreation: Float!
+    $user: ID
+  ) {
+    addDebt(
+      name: $name
+      category: $category
+      currentDebt: $currentDebt
+      totalCreditLine: $totalCreditLine
+      interestRate: $interestRate
+      debtAtCreation: $debtAtCreation
+      user: $user
+    ) {
+      _id
+      name
+      category
+      currentDebt
+      totalCreditLine
+      interestRate
+      createdDate
+      debtAtCreation
+      user
+    }
+  }
+`;
+
+export const DELETE_USER_DEBT = gql`
+  mutation($_id: ID!) {
+    deleteUserDebt(_id: $_id) {
+      _id
+    }
+  }
+`;
+
 export const DELETE_USER_RECIPE = gql`
   mutation($_id: ID!) {
     deleteUserRecipe(_id: $_id) {
@@ -149,10 +254,15 @@ export const DELETE_USER_RECIPE = gql`
 export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
+      _id
       username
       joinDate
       email
-      favorites {
+      debts {
+        _id
+        name
+      }
+      assets {
         _id
         name
       }
@@ -166,6 +276,32 @@ export const GET_USER_GOALS = gql`
       _id
       name
       goalTarget
+    }
+  }
+`;
+
+export const GET_USER_ASSETS = gql`
+  query($user: ID!) {
+    getUserAssets(user: $user) {
+      _id
+      name
+      category
+      currentValue
+      interestRate
+      quantity
+    }
+  }
+`;
+
+export const GET_USER_DEBTS = gql`
+  query($user: ID!) {
+    getUserDebts(user: $user) {
+      _id
+      name
+      category
+      currentDebt
+      totalCreditLine
+      interestRate
     }
   }
 `;

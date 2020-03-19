@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
-import { ADD_GOAL, GET_USER_GOALS } from "../../queries";
+import { ADD_ASSET, GET_USER_ASSETS } from "../../queries";
 import Error from "../Error";
 import withAuth from "../withAuth";
 import {
@@ -17,18 +17,18 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
-import SportsHandballIcon from "@material-ui/icons/SportsHandball";
+import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const initialState = {
   name: "",
   category: "",
-  goalTarget: "",
-  goalStart: "",
-  currentProgress: "",
-  username: ""
+  currentValue: "",
+  interestRate: "1",
+  quantity: 1,
+  user: ""
 };
-class AddGoal extends React.Component {
+class AddAsset extends React.Component {
   state = {
     ...initialState
   };
@@ -39,7 +39,7 @@ class AddGoal extends React.Component {
 
   componentDidMount() {
     this.setState({
-      username: this.props.session.getCurrentUser.username
+      user: this.props.session.getCurrentUser._id
     });
   }
 
@@ -48,29 +48,25 @@ class AddGoal extends React.Component {
     this.setState({
       [name]: value
     });
-    if (name === "goalStart") {
-      this.setState({
-        currentProgress: value
-      });
-    }
   };
 
-  handleSubmit = (event, addGoal) => {
+  handleSubmit = (event, addAsset) => {
     event.preventDefault();
-    addGoal().then(({ data }) => {
-      console.log(data.addGoal._id);
+    addAsset().then(({ data }) => {
+      console.log(data.addAsset._id);
       this.clearState();
-      this.props.history.push(`/goal/${data.addGoal._id}`);
+      this.props.history.push(`/asset/${data.addAsset._id}`);
     });
+    console.log(this.state);
   };
   validateForm = () => {
-    const { name, category, goalTarget } = this.state;
-    const isInvalid = !name || !category || !goalTarget;
+    const { name, category, currentValue } = this.state;
+    const isInvalid = !name || !category || !currentValue;
     return isInvalid;
   };
 
   // need to update this
-  updateCache = (cache, { data: { addGoal } }) => {
+  updateCache = (cache, { data: { addAsset } }) => {
     // const { getAllRecipes } = cache.readQuery({ query: GET_ALL_RECIPES });
     // console.log("from cache", getAllRecipes);
     // console.log("from data", addRecipe);
@@ -86,70 +82,93 @@ class AddGoal extends React.Component {
     const {
       name,
       category,
-      goalTarget,
-      goalStart,
-      currentProgress,
-      username
+      currentValue,
+      interestRate,
+      quantity,
+      user
     } = this.state;
 
-    let targetPlaceholder, currentPlaceholder;
+    let valuePlaceholder, interestQuantity, quantityCondition;
+    let interestQuestion = (
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        type="text"
+        id="interestRate"
+        name="interestRate"
+        onChange={this.handleChange}
+        label={"Interest Rate"}
+        value={interestRate}
+      />
+    );
+    let quantityQuestion = (
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        type="number"
+        id="quantity"
+        name="quantity"
+        onChange={this.handleChange}
+        label="Quantity"
+        value={quantity}
+      />
+    );
 
     switch (this.state.category) {
-      case "Financial":
-        targetPlaceholder = "How much would you like to save";
-        currentPlaceholder = "What is your current savings";
+      case "Savings":
+        valuePlaceholder = "Account Value";
+        quantityCondition = interestQuestion;
         break;
-      case "Habit":
-        targetPlaceholder = "How Many hours a week?";
-        currentPlaceholder = "How often now?";
+      case "Checking":
+        valuePlaceholder = "Account Value";
+        quantityCondition = interestQuestion;
         break;
-      case "Health":
-        targetPlaceholder = "What is your goal?";
-        currentPlaceholder = "What is your current status?";
+      case "Stock":
+        valuePlaceholder = "Stock Value";
+        quantityCondition = quantityQuestion;
+        interestQuantity = "Quantity";
         break;
-      case "Weight":
-        targetPlaceholder = "What is your ideal weight?";
-        currentPlaceholder = "What is your current weight?";
+      case "Misc":
+        valuePlaceholder = "Value";
+        quantityCondition = interestQuestion;
         break;
       default:
-        targetPlaceholder = "Target";
-        currentPlaceholder = "Current";
+        valuePlaceholder = "Value";
+        quantityCondition = interestQuestion;
     }
 
     return (
       <Mutation
-        mutation={ADD_GOAL}
+        mutation={ADD_ASSET}
         variables={{
           name,
           category,
-          goalTarget,
-          goalStart,
-          currentProgress,
-          username
+          currentValue,
+          interestRate,
+          quantity,
+          user
         }}
-        refetchQueries={() => [
-          { query: GET_USER_GOALS, variables: { username } }
-        ]}
+        refetchQueries={() => [{ query: GET_USER_ASSETS, variables: { user } }]}
       >
-        {(addGoal, { data, loading, error }) => {
+        {(addAsset, { data, loading, error }) => {
           return (
             <Container component="main" maxWidth="xs">
               <div className="paper">
                 <Grid container>
-                  <Grid item xs={12} sm={6}>
-                    <Avatar className="avatar">
-                      <SportsHandballIcon />
+                  <Grid item xs={12} sm={4}>
+                    <Avatar className="avatar background-green">
+                      <AccountBalanceIcon />
                     </Avatar>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography component="h1" variant="h5">
-                      Add Goal
-                    </Typography>
+                  <Grid item xs={12} sm={8}>
+                    <h3 className="green form-header">Add Asset</h3>
                   </Grid>
                 </Grid>
                 <form
                   className="form"
-                  onSubmit={event => this.handleSubmit(event, addGoal)}
+                  onSubmit={event => this.handleSubmit(event, addAsset)}
                 >
                   <TextField
                     margin="normal"
@@ -158,21 +177,21 @@ class AddGoal extends React.Component {
                     id="name"
                     name="name"
                     onChange={this.handleChange}
-                    label="What is your goal?"
+                    label="Asset Title"
                     value={name}
                   />
                   <FormControl>
-                    <InputLabel>What type of goal?</InputLabel>
+                    <InputLabel>What type of Asset?</InputLabel>
                     <Select
                       name="category"
                       label=""
                       onChange={this.handleChange}
                       value={category}
                     >
-                      <MenuItem value="Financial">Financial</MenuItem>
-                      <MenuItem value="Habit">Habit</MenuItem>
-                      <MenuItem value="Health">Health</MenuItem>
-                      <MenuItem value="Weight">Weight</MenuItem>
+                      <MenuItem value="Savings">Savings</MenuItem>
+                      <MenuItem value="Checking">Checking</MenuItem>
+                      <MenuItem value="Stock">Stock</MenuItem>
+                      <MenuItem value="Misc">Miscellaneous</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -181,23 +200,14 @@ class AddGoal extends React.Component {
                     required
                     fullWidth
                     type="text"
-                    id="goalTarget"
-                    name="goalTarget"
+                    id="currentValue"
+                    name="currentValue"
                     onChange={this.handleChange}
-                    label={targetPlaceholder}
-                    value={goalTarget}
+                    label={valuePlaceholder}
+                    value={currentValue}
                   />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    type="text"
-                    id="goalStart"
-                    name="goalStart"
-                    onChange={this.handleChange}
-                    label={currentPlaceholder}
-                    value={goalStart}
-                  />
+                  {quantityCondition}
+
                   <Button
                     type="submit"
                     disabled={loading || this.validateForm()}
@@ -218,5 +228,5 @@ class AddGoal extends React.Component {
 }
 
 export default withAuth(session => session && session.getCurrentUser)(
-  withRouter(AddGoal)
+  withRouter(AddAsset)
 );

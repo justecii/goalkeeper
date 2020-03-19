@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
-import { ADD_GOAL, GET_USER_GOALS } from "../../queries";
+import { ADD_DEBT, GET_USER_DEBTS } from "../../queries";
 import Error from "../Error";
 import withAuth from "../withAuth";
 import {
@@ -17,18 +17,19 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
-import SportsHandballIcon from "@material-ui/icons/SportsHandball";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 const initialState = {
   name: "",
   category: "",
-  goalTarget: "",
-  goalStart: "",
-  currentProgress: "",
-  username: ""
+  currentDebt: "",
+  totalCreditLine: "",
+  interestRate: "1",
+  debtAtCreation: "",
+  user: ""
 };
-class AddGoal extends React.Component {
+class AddDebt extends React.Component {
   state = {
     ...initialState
   };
@@ -39,7 +40,7 @@ class AddGoal extends React.Component {
 
   componentDidMount() {
     this.setState({
-      username: this.props.session.getCurrentUser.username
+      user: this.props.session.getCurrentUser._id
     });
   }
 
@@ -48,29 +49,30 @@ class AddGoal extends React.Component {
     this.setState({
       [name]: value
     });
-    if (name === "goalStart") {
+    if (name === "debtAtCreation") {
       this.setState({
-        currentProgress: value
+        currentDebt: value
       });
     }
   };
 
-  handleSubmit = (event, addGoal) => {
+  handleSubmit = (event, addDebt) => {
     event.preventDefault();
-    addGoal().then(({ data }) => {
-      console.log(data.addGoal._id);
+    addDebt().then(({ data }) => {
+      console.log(data.addDebt._id);
       this.clearState();
-      this.props.history.push(`/goal/${data.addGoal._id}`);
+      this.props.history.push(`/debt/${data.addDebt._id}`);
     });
+    console.log(this.state);
   };
   validateForm = () => {
-    const { name, category, goalTarget } = this.state;
-    const isInvalid = !name || !category || !goalTarget;
+    const { name, category, debtAtCreation } = this.state;
+    const isInvalid = !name || !category || !debtAtCreation;
     return isInvalid;
   };
 
   // need to update this
-  updateCache = (cache, { data: { addGoal } }) => {
+  updateCache = (cache, { data: { addDebt } }) => {
     // const { getAllRecipes } = cache.readQuery({ query: GET_ALL_RECIPES });
     // console.log("from cache", getAllRecipes);
     // console.log("from data", addRecipe);
@@ -86,70 +88,64 @@ class AddGoal extends React.Component {
     const {
       name,
       category,
-      goalTarget,
-      goalStart,
-      currentProgress,
-      username
+      currentDebt,
+      totalCreditLine,
+      interestRate,
+      debtAtCreation,
+      user
     } = this.state;
 
-    let targetPlaceholder, currentPlaceholder;
+    let valuePlaceholder, availableCredit;
 
     switch (this.state.category) {
-      case "Financial":
-        targetPlaceholder = "How much would you like to save";
-        currentPlaceholder = "What is your current savings";
+      case "Credit Card":
+        valuePlaceholder = "Current Debt";
+        availableCredit = "Card Limit";
         break;
-      case "Habit":
-        targetPlaceholder = "How Many hours a week?";
-        currentPlaceholder = "How often now?";
+      case "Loan":
+        valuePlaceholder = "Loan Value";
+        availableCredit = "Initial Value";
         break;
-      case "Health":
-        targetPlaceholder = "What is your goal?";
-        currentPlaceholder = "What is your current status?";
-        break;
-      case "Weight":
-        targetPlaceholder = "What is your ideal weight?";
-        currentPlaceholder = "What is your current weight?";
+      case "Misc":
+        valuePlaceholder = "Value";
+        availableCredit = "Initial Value/Limit";
         break;
       default:
-        targetPlaceholder = "Target";
-        currentPlaceholder = "Current";
+        valuePlaceholder = "Value";
+        availableCredit = "Initial Value/Limit";
     }
 
     return (
       <Mutation
-        mutation={ADD_GOAL}
+        mutation={ADD_DEBT}
         variables={{
           name,
           category,
-          goalTarget,
-          goalStart,
-          currentProgress,
-          username
+          currentDebt,
+          totalCreditLine,
+          interestRate,
+          debtAtCreation,
+          user
         }}
-        refetchQueries={() => [
-          { query: GET_USER_GOALS, variables: { username } }
-        ]}
+        refetchQueries={() => [{ query: GET_USER_DEBTS, variables: { user } }]}
       >
-        {(addGoal, { data, loading, error }) => {
+        {(addDebt, { data, loading, error }) => {
           return (
             <Container component="main" maxWidth="xs">
               <div className="paper">
                 <Grid container>
-                  <Grid item xs={12} sm={6}>
-                    <Avatar className="avatar">
-                      <SportsHandballIcon />
+                  <Grid item xs={12} sm={4}>
+                    <Avatar className="avatar background-red">
+                      <CreditCardIcon />
                     </Avatar>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Typography component="h1" variant="h5">
-                      Add Goal
-                    </Typography>
+                  <Grid item xs={12} sm={8}>
+                    <h3 className="red form-header">Add Account</h3>
                   </Grid>
                 </Grid>
                 <form
                   className="form"
-                  onSubmit={event => this.handleSubmit(event, addGoal)}
+                  onSubmit={event => this.handleSubmit(event, addDebt)}
                 >
                   <TextField
                     margin="normal"
@@ -158,21 +154,20 @@ class AddGoal extends React.Component {
                     id="name"
                     name="name"
                     onChange={this.handleChange}
-                    label="What is your goal?"
+                    label="Debt Title"
                     value={name}
                   />
                   <FormControl>
-                    <InputLabel>What type of goal?</InputLabel>
+                    <InputLabel>What type of Debt?</InputLabel>
                     <Select
                       name="category"
                       label=""
                       onChange={this.handleChange}
                       value={category}
                     >
-                      <MenuItem value="Financial">Financial</MenuItem>
-                      <MenuItem value="Habit">Habit</MenuItem>
-                      <MenuItem value="Health">Health</MenuItem>
-                      <MenuItem value="Weight">Weight</MenuItem>
+                      <MenuItem value="Credit Card">Credit Card</MenuItem>
+                      <MenuItem value="Loan">Loan</MenuItem>
+                      <MenuItem value="Misc">Miscellaneous</MenuItem>
                     </Select>
                   </FormControl>
 
@@ -180,24 +175,36 @@ class AddGoal extends React.Component {
                     margin="normal"
                     required
                     fullWidth
-                    type="text"
-                    id="goalTarget"
-                    name="goalTarget"
+                    type="number"
+                    id="debtAtCreation"
+                    name="debtAtCreation"
                     onChange={this.handleChange}
-                    label={targetPlaceholder}
-                    value={goalTarget}
+                    label={valuePlaceholder}
+                    value={debtAtCreation}
                   />
                   <TextField
                     margin="normal"
                     required
                     fullWidth
-                    type="text"
-                    id="goalStart"
-                    name="goalStart"
+                    type="number"
+                    id="interestRate"
+                    name="interestRate"
                     onChange={this.handleChange}
-                    label={currentPlaceholder}
-                    value={goalStart}
+                    label={"Interest Rate"}
+                    value={interestRate}
                   />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    type="number"
+                    id="totalCreditLine"
+                    name="totalCreditLine"
+                    onChange={this.handleChange}
+                    label={availableCredit}
+                    value={totalCreditLine}
+                  />
+
                   <Button
                     type="submit"
                     disabled={loading || this.validateForm()}
@@ -218,5 +225,5 @@ class AddGoal extends React.Component {
 }
 
 export default withAuth(session => session && session.getCurrentUser)(
-  withRouter(AddGoal)
+  withRouter(AddDebt)
 );

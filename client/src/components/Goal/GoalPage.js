@@ -1,7 +1,6 @@
 import React from "react";
 
 import { withRouter } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
 import withAuth from "../withAuth";
 
 import { Query, Mutation } from "react-apollo";
@@ -26,18 +25,18 @@ class GoalPage extends React.Component {
     }
   }
   componentDidMount() {
-    this.setState({
-      username: this.props.location.state.username
-    });
+    // this.setState({
+    //   username: this.props.location.state.username
+    // });
   }
   render() {
-    console.log(this.props.location.state.username);
     const { _id } = this.props.match.params;
     return (
       <Query query={GET_GOAL} variables={{ _id }}>
         {({ data, loading, error }) => {
           if (loading) return <div>Loading</div>;
           if (error) return <div>Error</div>;
+          console.log(data);
           return (
             <div className="App">
               <div className="TODO">
@@ -61,9 +60,7 @@ class GoalPage extends React.Component {
                 <p>Target: {data.getGoal.goalTarget}</p>
                 <p>Current Progress: {data.getGoal.currentProgress}</p>
               </div>
-              <div className="TODO">
-                <ProgressBar />
-              </div>
+              <div className="TODO">TODO</div>
             </div>
           );
         }}

@@ -38,7 +38,7 @@ const NavbarAuth = ({ session }) => (
         </NavLink>
       </li>
       <li className="nav-link">
-        <NavLink to="/goal/add">Add Goal</NavLink>
+        <NavLink to="/todo">Stats</NavLink>
       </li>
       <li className="nav-link">
         <NavLink to="/profile">Profile</NavLink>

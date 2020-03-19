@@ -29,6 +29,14 @@ const UserSchema = new Schema({
   goals: {
     type: [Schema.Types.ObjectId],
     ref: "Goals"
+  },
+  assets: {
+    type: [Schema.Types.ObjectId],
+    ref: "Assets"
+  },
+  debts: {
+    type: [Schema.Types.ObjectId],
+    ref: "Debts"
   }
 });
 

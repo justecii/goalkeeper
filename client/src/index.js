@@ -13,9 +13,10 @@ import Signin from "./components/Auth/Signin";
 import Signup from "./components/Auth/Signup";
 import Navbar from "./components/Navbar";
 import Search from "./components/Recipe/Search";
-import AddRecipe from "./components/Recipe/AddRecipe";
-import AddGoal from "./components/Goal/AddGoal";
-import GoalPage from "./components/Goal/GoalPage";
+import AddAsset from "./components/Asset/AddAsset";
+import AddDebt from "./components/Debt/AddDebt";
+import AssetPage from "./components/Asset/AssetPage";
+import DebtPage from "./components/Debt/DebtPage";
 import RecipePage from "./components/Recipe/RecipePage";
 import Profile from "./components/Profile/Profile";
 import withSession from "./components/withSession";
@@ -36,9 +37,12 @@ const client = new ApolloClient({
       }
     });
   },
-  onError: ({ networkError }) => {
+  onError: ({ networkError, graphQLErrors }) => {
     if (networkError) {
       console.log("Network Error", networkError);
+    }
+    if (graphQLErrors) {
+      console.log("graphQLErrors", graphQLErrors);
     }
   }
 });
@@ -51,8 +55,13 @@ const Root = ({ refetch, session }) => (
         <Route exact path="/" component={App} />
         <Route path="/signin" render={() => <Signin refetch={refetch} />} />
         <Route path="/signup" render={() => <Signup refetch={refetch} />} />
-        <Route path="/goal/add" render={() => <AddGoal session={session} />} />
-        <Route path="/goal/:_id" component={GoalPage} />
+        <Route
+          path="/asset/add"
+          render={() => <AddAsset session={session} />}
+        />
+        <Route path="/debt/add" render={() => <AddDebt session={session} />} />
+        <Route path="/asset/:_id" component={AssetPage} />
+        <Route path="/debt/:_id" component={DebtPage} />
         <Route path="/profile" render={() => <Profile session={session} />} />
         <Redirect to="/" />
       </Switch>

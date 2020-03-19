@@ -1,13 +1,13 @@
 import React from "react";
 
 import UserInfo from "./UserInfo";
-import UserGoals from "./UserGoals";
+import UserAssets from "./UserAssets";
 import withAuth from "../withAuth";
 
 const Profile = ({ session }) => (
   <div className="App">
     <UserInfo session={session} />
-    <UserGoals username={session.getCurrentUser.username} />
+    <UserAssets user={session.getCurrentUser._id} />
   </div>
 );
 

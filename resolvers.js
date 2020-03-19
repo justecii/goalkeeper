@@ -20,6 +20,14 @@ exports.resolvers = {
       const recipe = await Recipe.findOne({ _id });
       return recipe;
     },
+    getAsset: async (root, { _id }, { Asset }) => {
+      const asset = await Asset.findOne({ _id });
+      return asset;
+    },
+    getDebt: async (root, { _id }, { Debt }) => {
+      const debt = await Debt.findOne({ _id });
+      return debt;
+    },
     searchRecipes: async (root, { searchTerm }, { Recipe }) => {
       if (searchTerm) {
         const searchResults = await Recipe.find(
@@ -53,6 +61,18 @@ exports.resolvers = {
       });
       return userGoals;
     },
+    getUserAssets: async (root, { user }, { Asset }) => {
+      const userAssets = await Asset.find({ user }).sort({
+        createdDate: "desc"
+      });
+      return userAssets;
+    },
+    getUserDebts: async (root, { user }, { Debt }) => {
+      const userDebts = await Debt.find({ user }).sort({
+        createdDate: "desc"
+      });
+      return userDebts;
+    },
 
     getCurrentUser: async (root, args, { currentUser, User }) => {
       if (!currentUser) {
@@ -82,6 +102,46 @@ exports.resolvers = {
       }).save();
       return newRecipe;
     },
+    addAsset: async (
+      root,
+      { name, category, currentValue, interestRate, quantity, user },
+      { Asset }
+    ) => {
+      const newAsset = await new Asset({
+        name,
+        category,
+        currentValue,
+        interestRate,
+        quantity,
+        user
+      }).save();
+      return newAsset;
+    },
+    addDebt: async (
+      root,
+      {
+        name,
+        category,
+        currentDebt,
+        totalCreditLine,
+        debtAtCreation,
+        interestRate,
+        user
+      },
+      { Debt }
+    ) => {
+      const newDebt = await new Debt({
+        name,
+        category,
+        currentDebt,
+        totalCreditLine,
+        debtAtCreation,
+        interestRate,
+        user
+      }).save();
+      return newDebt;
+    },
+
     addGoal: async (
       root,
       { name, category, username, goalTarget, currentProgress, goalStart },
@@ -126,6 +186,14 @@ exports.resolvers = {
     deleteUserGoal: async (root, { _id }, { Goal }) => {
       const goal = await Goal.findOneAndRemove({ _id });
       return goal;
+    },
+    deleteUserAsset: async (root, { _id }, { Asset }) => {
+      const asset = await Asset.findOneAndRemove({ _id });
+      return asset;
+    },
+    deleteUserDebt: async (root, { _id }, { Debt }) => {
+      const debt = await Debt.findOneAndRemove({ _id });
+      return debt;
     },
     signinUser: async (root, { username, password }, { User }) => {
       const user = await User.findOne({ username });

@@ -1,6 +1,6 @@
 .App {
     text-align: left;
-    padding-left: 25px;
+    padding: 0px 25px;
 }
 
 a {
@@ -72,10 +72,43 @@ textarea {
 }
 
 .delete-button {
-    color: red;
+    color: #ca2121;
     cursor: pointer;
 }
 
 .flex-horizontal {
     display: flex;
+}
+
+.green {
+    color: #0b8d2b;
+}
+
+.background-green {
+    background-color: #0b8d2b !important;
+}
+
+.red {
+    color: #ca2121;
+}
+
+.background-red {
+    background-color: #ca2121 !important;
+}
+
+.header-icon {
+    font-size: 2rem;
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+.vertical-bottom {
+    vertical-align: text-bottom;
+}
+
+.form-header {
+    text-align: center;
+    margin-top: 10px;
 }
